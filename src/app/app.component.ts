@@ -12,6 +12,7 @@ import * as LoansActions from './state/loans.actions';
 
 export class AppComponent {
   @Select( LoansState ) LoansState$: Observable<LoansStateModel>;
+  investAmount: number;
 
   constructor(
     private store: Store
@@ -19,5 +20,9 @@ export class AppComponent {
 
   setActiveLoan(id: number) {
     this.store.dispatch( new LoansActions.SetActiveLoan(id) );
+  }
+
+  invest() {
+    console.log(this.investAmount);
   }
 }

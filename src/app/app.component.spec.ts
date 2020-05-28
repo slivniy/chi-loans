@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NgxsModule, Store } from '@ngxs/store';
 import { LoansState, LoansStateModel } from './state/loans.state';
 import { DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -18,7 +19,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         NgxsModule.forRoot([
           LoansState
-        ])
+        ]),
+        FormsModule
       ],
       declarations: [
         AppComponent
@@ -55,7 +57,17 @@ describe('AppComponent', () => {
     expect(state.activeLoan.id).toBe(state.loans[0].id);
   });
 
-  xit('User can put numeric value (invested amount) in the input', () => {
+  it('User can put numeric value (invested amount) in the input', () => {
+    const numericValue = 200;
+    const button = fixture.debugElement.query(By.css('.loans-list--loan-invest-button'));
+    button.triggerEventHandler('click', state.loans[0].id);
+    fixture.detectChanges();
+    const input = fixture.debugElement.query(By.css('#invest'));
+    const ne: HTMLInputElement = input.nativeElement;
+    ne.value = numericValue.toString();
+    ne.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(app.investAmount).toBe(numericValue);
   });
 
   xit('User can close popup', () => {
