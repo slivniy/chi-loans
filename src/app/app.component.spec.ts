@@ -52,7 +52,6 @@ describe('AppComponent', () => {
   it('User can click button labelled “Invest”', () => {
     const button = fixture.debugElement.query(By.css('.loans-list--loan-invest-button'));
     button.triggerEventHandler('click', state.loans[0].id);
-    fixture.detectChanges();
     state = store.selectSnapshot( LoansState );
     expect(state.activeLoan.id).toBe(state.loans[0].id);
   });
@@ -66,11 +65,21 @@ describe('AppComponent', () => {
     const ne: HTMLInputElement = input.nativeElement;
     ne.value = numericValue.toString();
     ne.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
     expect(app.investAmount).toBe(numericValue);
   });
 
-  xit('User can close popup', () => {
+  it('User can close popup', () => {
+    const buttonInvest = fixture.debugElement.query(By.css('.loans-list--loan-invest-button'));
+    buttonInvest.triggerEventHandler('click', state.loans[0].id);
+    fixture.detectChanges();
+    const buttonClose = fixture.debugElement.query(By.css('#closeModalButton'));
+    buttonClose.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const investForm = fixture.debugElement.query(By.css('.invest-form--wrap'));
+
+    state = store.selectSnapshot( LoansState );
+    expect(investForm).toBe(null);
+    expect(state.activeLoan).toBeUndefined();
   });
 
   xit('the form should be closed after invest click', () => {

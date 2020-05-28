@@ -64,8 +64,7 @@ export class LoansState {
 
   constructor(
     private store: Store
-  ) {
-  }
+  ) {}
 
   @Action(LoansActions.SetActiveLoan)
   setEditableCRC(ctx: StateContext<LoansStateModel>, { id }: LoansActions.SetActiveLoan) {
@@ -73,6 +72,13 @@ export class LoansState {
     const loan = state.loans.find(u => u.id === id);
     ctx.patchState({
       activeLoan: { ...loan }
+    });
+  }
+
+  @Action(LoansActions.ClearActiveLoan)
+  clearActiveLoan(ctx: StateContext<LoansStateModel>) {
+    ctx.patchState({
+      activeLoan: undefined
     });
   }
 

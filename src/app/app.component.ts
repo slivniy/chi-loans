@@ -25,4 +25,9 @@ export class AppComponent {
   invest() {
     console.log(this.investAmount);
   }
+
+  closeModal() {
+    this.investAmount = undefined;
+    this.store.dispatch( new LoansActions.ClearActiveLoan() );
+  }
 }
