@@ -46,12 +46,14 @@ export interface Loan {
 
 export interface LoansStateModel {
   loans: Loan[];
+  totalAmount: number;
 }
 
 @State<LoansStateModel>({
   name: 'loansState',
   defaults: {
-    loans: LoansInitial
+    loans: LoansInitial,
+    totalAmount: LoansInitial.reduce( (acc, val) => acc + val.amount, 0 )
   }
 })
 

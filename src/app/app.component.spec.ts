@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 import { NgxsModule, Store } from '@ngxs/store';
 import { LoansState, LoansStateModel } from './state/loans.state';
+import { DecimalPipe } from '@angular/common';
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -25,6 +26,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
     store = TestBed.inject(Store);
+    fixture.detectChanges();
   }));
 
   it('should create the app', () => {
@@ -32,13 +34,18 @@ describe('AppComponent', () => {
   });
 
   it('User is able to see all current loans', () => {
-    fixture.detectChanges();
     const loansList = fixture.debugElement.queryAllNodes(By.css('.loans-list--loan-block'));
     const state: LoansStateModel = store.selectSnapshot( LoansState );
     expect(loansList.length).toEqual(state.loans.length);
   });
 
-  xit('The User is able to see the number representing the total amount of possible', () => {
+  it('The User is able to see the number representing the total amount of possible', () => {
+    const state: LoansStateModel = store.selectSnapshot( LoansState );
+    const loansTotal = fixture.debugElement.query(By.css('.loans-total'));
+    const ne: HTMLElement = loansTotal.nativeElement;
+    const amountInView = new DecimalPipe('en-US').transform(state.totalAmount);
+    expect(ne.innerText).toContain(amountInView);
+
   });
 
   xit('User can put numeric value (invested amount) in the input', () => {
