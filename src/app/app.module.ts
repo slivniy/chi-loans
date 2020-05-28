@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxsModule } from '@ngxs/store';
 import { LoansState } from './state/loans.state';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { LoansState } from './state/loans.state';
     AppRoutingModule,
     NgxsModule.forRoot([
       LoansState
-    ])
+    ], {developmentMode: !environment.production})
   ],
   bootstrap: [AppComponent]
 })

@@ -1,35 +1,64 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser';
+import { NgxsModule, Store } from '@ngxs/store';
+import { LoansState, LoansStateModel } from './state/loans.state';
 
 describe('AppComponent', () => {
+  let app: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let store: Store;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        NgxsModule.forRoot([
+          LoansState
+        ])
       ],
       declarations: [
         AppComponent
       ],
-    }).compileComponents();
+    });
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+    store = TestBed.inject(Store);
   }));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'chi-loans'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('chi-loans');
+  it('User is able to see all current loans', () => {
+    fixture.detectChanges();
+    const loansList = fixture.debugElement.queryAllNodes(By.css('.loans-list--loan-block'));
+    const state: LoansStateModel = store.selectSnapshot( LoansState );
+    expect(loansList.length).toEqual(state.loans.length);
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('chi-loans app is running!');
+  xit('The User is able to see the number representing the total amount of possible', () => {
+  });
+
+  xit('User can put numeric value (invested amount) in the input', () => {
+  });
+
+  xit('User can click button labelled “Invest”', () => {
+  });
+
+  xit('User can close popup', () => {
+  });
+
+  xit('the form should be closed after invest click', () => {
+  });
+
+  xit('the available amount, for the loan User invested into, should decrease', () => {
+  });
+
+  xit('the total available number should also adjust accordingly.', () => {
+  });
+
+  xit('The loan on which User have invested should have some visual indication', () => {
   });
 });
