@@ -1,0 +1,15 @@
+.loans-list {
+  &--wrap {
+    background-color: #ccc;
+    padding: 1.5rem;
+  }
+  &--loan-block {
+    border: 1px solid #aeaeae;
+    background-color: #eee;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  &--loan-invested-text {
+    color: green;
+  }
+}
