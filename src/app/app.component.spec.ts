@@ -10,6 +10,7 @@ describe('AppComponent', () => {
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let store: Store;
+  let state: LoansStateModel;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,6 +28,7 @@ describe('AppComponent', () => {
     app = fixture.componentInstance;
     store = TestBed.inject(Store);
     fixture.detectChanges();
+    state = store.selectSnapshot( LoansState );
   }));
 
   it('should create the app', () => {
@@ -35,23 +37,25 @@ describe('AppComponent', () => {
 
   it('User is able to see all current loans', () => {
     const loansList = fixture.debugElement.queryAllNodes(By.css('.loans-list--loan-block'));
-    const state: LoansStateModel = store.selectSnapshot( LoansState );
     expect(loansList.length).toEqual(state.loans.length);
   });
 
   it('The User is able to see the number representing the total amount of possible', () => {
-    const state: LoansStateModel = store.selectSnapshot( LoansState );
     const loansTotal = fixture.debugElement.query(By.css('.loans-total'));
     const ne: HTMLElement = loansTotal.nativeElement;
     const amountInView = new DecimalPipe('en-US').transform(state.totalAmount);
     expect(ne.innerText).toContain(amountInView);
+  });
 
+  it('User can click button labelled “Invest”', () => {
+    const button = fixture.debugElement.query(By.css('.loans-list--loan-invest-button'));
+    button.triggerEventHandler('click', state.loans[0].id);
+    fixture.detectChanges();
+    state = store.selectSnapshot( LoansState );
+    expect(state.activeLoan.id).toBe(state.loans[0].id);
   });
 
   xit('User can put numeric value (invested amount) in the input', () => {
-  });
-
-  xit('User can click button labelled “Invest”', () => {
   });
 
   xit('User can close popup', () => {

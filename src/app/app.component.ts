@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoansState, LoansStateModel } from './state/loans.state';
-import { Select } from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
+import * as LoansActions from './state/loans.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,12 @@ import { Select } from '@ngxs/store';
 
 export class AppComponent {
   @Select( LoansState ) LoansState$: Observable<LoansStateModel>;
+
+  constructor(
+    private store: Store
+  ) {}
+
+  setActiveLoan(id: number) {
+    this.store.dispatch( new LoansActions.SetActiveLoan(id) );
+  }
 }

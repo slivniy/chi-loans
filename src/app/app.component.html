@@ -29,7 +29,7 @@
               </div>
               <div class="col col-md-4 text-right">
 
-                <button class="btn btn-warning">
+                <button class="btn btn-warning loans-list--loan-invest-button" (click)="setActiveLoan(loan.id)">
                   Invest
                 </button>
 
@@ -48,7 +48,7 @@
     </div>
 
     <div class="col-md-6">
-      <div class="invest-form--wrap">
+      <div class="invest-form--wrap" *ngIf="loansState.activeLoan">
         <div class="container">
           <div class="row">
             <div class="col">
@@ -58,19 +58,19 @@
 
           <div class="row mb-3">
             <div class="col">
-              title
+              {{ loansState.activeLoan.tranche }}
             </div>
           </div>
 
           <div class="row">
             <div class="col">
-              Amount available: $1111
+              Amount available: $ {{ loansState.activeLoan.available }}
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col">
-              Loan ends in: xxx
+              Loan ends in: {{ loansState.activeLoan.term_remaining }}
             </div>
           </div>
 

@@ -46,6 +46,7 @@ export interface Loan {
 
 export interface LoansStateModel {
   loans: Loan[];
+  activeLoan: Loan;
   totalAmount: number;
 }
 
@@ -53,7 +54,8 @@ export interface LoansStateModel {
   name: 'loansState',
   defaults: {
     loans: LoansInitial,
-    totalAmount: LoansInitial.reduce( (acc, val) => acc + val.amount, 0 )
+    activeLoan: undefined,
+    totalAmount: LoansInitial.reduce( (acc, val) => acc + val.available, 0 )
   }
 })
 
@@ -65,17 +67,13 @@ export class LoansState {
   ) {
   }
 
-  // @Action(CatalogCRCsActions.SetEditableCRC)
-  // setEditableCRC(ctx: StateContext<CatalogCRCsStateModel>, payload: CatalogCRCsActions.SetEditableCRC) {
-  //   const state = ctx.getState();
-  //   const crc = state.crcs.find(u => u.id === payload.id);
-  //   ctx.patchState({
-  //     editableCRCForm: {
-  //       model: {
-  //         ...crc,
-  //       }
-  //     }
-  //   });
-  // }
+  @Action(LoansActions.SetActiveLoan)
+  setEditableCRC(ctx: StateContext<LoansStateModel>, { id }: LoansActions.SetActiveLoan) {
+    const state = ctx.getState();
+    const loan = state.loans.find(u => u.id === id);
+    ctx.patchState({
+      activeLoan: { ...loan }
+    });
+  }
 
 }
