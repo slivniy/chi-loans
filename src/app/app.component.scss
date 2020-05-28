@@ -1,7 +1,7 @@
 .loans-list {
   &--wrap {
-    background-color: #ccc;
-    padding: 1.5rem;
+    background-color: #ddd;
+    padding: 2rem;
   }
   &--loan-block {
     border: 1px solid #aeaeae;
@@ -11,5 +11,12 @@
   }
   &--loan-invested-text {
     color: green;
+  }
+}
+
+.invest-form {
+  &--wrap {
+    background-color: #ddd;
+    padding: 1.5rem .5rem;
   }
 }

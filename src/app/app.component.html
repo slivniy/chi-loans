@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="( LoansState$ | async ) as loansState">
   <div class="row">
     <div class="col col-md-6">
 
@@ -7,13 +7,13 @@
           Current Loans
         </h3>
 
-        <div class="loans-list--loan-block">
+        <div class="loans-list--loan-block" *ngFor="let loan of loansState.loans">
           <div class="container-fluid">
 
             <div class="row">
               <div class="col col-md-8">
                 <h5 class="loans-list-loan-title">
-                  Name 1
+                  {{ loan.tranche }}
                 </h5>
               </div>
               <div class="col col-md-4 text-right">
@@ -25,7 +25,7 @@
 
             <div class="row">
               <div class="col col-md-8">
-                Loan desc
+                {{ loan.title }}
               </div>
               <div class="col col-md-4 text-right">
 
@@ -45,6 +45,56 @@
 
       </div>
 
+    </div>
+
+    <div class="col-md-6">
+      <div class="invest-form--wrap">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <h5>Invest in Loan</h5>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col">
+              title
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              Amount available: $1111
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col">
+              Loan ends in: xxx
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+                <label for="invest">Investment amount ($)</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-sm-8">
+              <div class="form-group">
+                <input type="text" class="form-control" id="invest" placeholder="Enter amount">
+              </div>
+            </div>
+            <div class="col col-sm-4">
+              <button class="btn btn-warning">
+                Invest
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
