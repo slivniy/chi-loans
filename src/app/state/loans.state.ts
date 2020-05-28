@@ -11,7 +11,8 @@ export const LoansInitial = [
     annualised_return: 8.60,
     term_remaining: 864000,
     ltv: 48.80,
-    amount: 85754
+    amount: 85754,
+    invested: false
   }, {
     id: 5,
     title: 'Consectetur ipsam qui magnam minus dolore ut fugit.',
@@ -20,7 +21,8 @@ export const LoansInitial = [
     annualised_return: 7.10,
     term_remaining: 1620000,
     ltv: 48.80,
-    amount: 85754
+    amount: 85754,
+    invested: false
   }, {
     id: 12,
     title: 'Dolores repudiandae ut voluptas unde laborum quaerat et sapiente.',
@@ -29,7 +31,8 @@ export const LoansInitial = [
     annualised_return: 4.80,
     term_remaining: 879000,
     ltv: 48.80,
-    amount: 85754
+    amount: 85754,
+    invested: false
   }
 ];
 
@@ -42,6 +45,7 @@ export interface Loan {
   term_remaining: number;
   ltv: number;
   amount: number;
+  invested: boolean;
 }
 
 export interface LoansStateModel {
@@ -79,6 +83,23 @@ export class LoansState {
   clearActiveLoan(ctx: StateContext<LoansStateModel>) {
     ctx.patchState({
       activeLoan: undefined
+    });
+  }
+
+  @Action(LoansActions.MakeInvest)
+  makeInvest(ctx: StateContext<LoansStateModel>, { amount }: LoansActions.MakeInvest) {
+    const state = ctx.getState();
+    const updatedLoans = state.loans.map( loan => {
+      return {
+        ...loan,
+        available: loan.id === state.activeLoan.id ? (loan.available - amount) : loan.available,
+        invested: loan.id === state.activeLoan.id
+      };
+    });
+    ctx.patchState({
+      activeLoan: undefined,
+      loans: updatedLoans,
+      totalAmount: updatedLoans.reduce( (acc, val) => acc + val.available, 0 )
     });
   }
 

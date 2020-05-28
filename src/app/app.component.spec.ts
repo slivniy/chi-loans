@@ -69,8 +69,7 @@ describe('AppComponent', () => {
   });
 
   it('User can close popup', () => {
-    const buttonInvest = fixture.debugElement.query(By.css('.loans-list--loan-invest-button'));
-    buttonInvest.triggerEventHandler('click', state.loans[0].id);
+    app.setActiveLoan(state.loans[0].id);
     fixture.detectChanges();
     const buttonClose = fixture.debugElement.query(By.css('#closeModalButton'));
     buttonClose.triggerEventHandler('click', null);
@@ -82,7 +81,15 @@ describe('AppComponent', () => {
     expect(state.activeLoan).toBeUndefined();
   });
 
-  xit('the form should be closed after invest click', () => {
+  it('The loan on which User have invested should have some visual indication', () => {
+    const loanIndex = 2;
+    app.setActiveLoan(state.loans[loanIndex].id);
+    app.investAmount = 300;
+    app.invest();
+    fixture.detectChanges();
+    const loanNodes = fixture.debugElement.queryAll(By.css('.loans-list--loan-block'));
+    const mark = loanNodes[loanIndex].query(By.css('.loans-list--loan-invested-text'));
+    expect(mark).not.toBe(null);
   });
 
   xit('the available amount, for the loan User invested into, should decrease', () => {
@@ -91,6 +98,6 @@ describe('AppComponent', () => {
   xit('the total available number should also adjust accordingly.', () => {
   });
 
-  xit('The loan on which User have invested should have some visual indication', () => {
+  xit('the form should be closed after invest click', () => {
   });
 });

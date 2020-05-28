@@ -7,6 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 import { LoansState } from './state/loans.state';
 import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,10 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     NgxsModule.forRoot([
       LoansState
-    ], {developmentMode: !environment.production})
+    ], {developmentMode: !environment.production}),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: environment.production
+    })
   ],
   bootstrap: [AppComponent]
 })

@@ -23,7 +23,8 @@ export class AppComponent {
   }
 
   invest() {
-    console.log(this.investAmount);
+    this.store.dispatch( new LoansActions.MakeInvest( this.investAmount ) );
+    this.investAmount = undefined;
   }
 
   closeModal() {
