@@ -92,12 +92,40 @@ describe('AppComponent', () => {
     expect(mark).not.toBe(null);
   });
 
-  xit('the available amount, for the loan User invested into, should decrease', () => {
+  it('The available amount, for the loan User invested into, should decrease', () => {
+    const loanIndex = 1;
+    const investAmount = 1000;
+    const initialAvailableAmount = store.selectSnapshot( LoansState ).loans[loanIndex].available;
+    app.setActiveLoan(state.loans[loanIndex].id);
+    app.investAmount = investAmount;
+    app.invest();
+    const updatedAvailableAmount = store.selectSnapshot( LoansState ).loans[loanIndex].available;
+    expect(updatedAvailableAmount).toBe(initialAvailableAmount - investAmount);
   });
 
-  xit('the total available number should also adjust accordingly.', () => {
+  it('the total available number should also adjust accordingly.', () => {
+    const investAmount = 1000;
+    const initialTotalAmount = store.selectSnapshot( LoansState ).totalAmount;
+    app.setActiveLoan(state.loans[2].id);
+    app.investAmount = investAmount;
+    app.invest();
+    const updatedTotalAmount = store.selectSnapshot( LoansState ).totalAmount;
+    expect( updatedTotalAmount).toBe(initialTotalAmount - investAmount);
   });
 
-  xit('the form should be closed after invest click', () => {
+  it('The form should be closed after invest click', () => {
+    let investForm = fixture.debugElement.query(By.css('.invest-form--wrap'));
+    expect(investForm).toBe(null);
+
+    app.setActiveLoan(state.loans[2].id);
+    fixture.detectChanges();
+    investForm = fixture.debugElement.query(By.css('.invest-form--wrap'));
+    expect(investForm).not.toBe(null);
+
+    app.investAmount = 100;
+    app.invest();
+    fixture.detectChanges();
+    investForm = fixture.debugElement.query(By.css('.invest-form--wrap'));
+    expect(investForm).toBe(null);
   });
 });
