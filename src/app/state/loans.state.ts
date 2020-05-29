@@ -93,7 +93,7 @@ export class LoansState {
       return {
         ...loan,
         available: loan.id === state.activeLoan.id ? (loan.available - amount) : loan.available,
-        invested: loan.id === state.activeLoan.id
+        invested: loan.id === state.activeLoan.id ? true : loan.invested
       };
     });
     ctx.patchState({
